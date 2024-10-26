@@ -21,6 +21,61 @@ function readAllFunction(array $config): string
     }
 }
 
+function searchBirthday(array $config): string
+{
+    $file = readAllFunction($config);
+    $array = explode("\r\n", $file);
+    $today = date("d-m-Y");
+    $todayDateArray = explode("-", $today);
+    $result = '';
+    foreach ($array as $key) {
+        $searchString = explode(", ", $key);
+        if (count($searchString) === 2) {
+            $searchStringDateArray = explode("-", $searchString[1]);
+        }
+        if ($searchStringDateArray[0]  ===  $todayDateArray[0] && $searchStringDateArray[1]  ===  $todayDateArray[1]) {
+            $result .= $key . PHP_EOL;
+        }
+    }
+    if (strlen($result) === 0) {
+        $result = 'Сегодня не у кого нет дня рождения!';
+    } else {
+        $result = "Сегодня отмечают день рождения:\r\n" . $result;
+    }
+    return $result;
+}
+
+function deleteUser(array $config)
+{
+    $address = $config['storage']['address'];
+    $file = readAllFunction($config);
+    $array = explode("\r\n", $file);
+    $result = '';
+    $resultArray = [];
+    $searchLine = readline("Введите имя или дату в формате ДД-ММ-ГГГГ : ");
+    foreach ($array as $key) {
+        $searchArray = explode(", ", $key);
+        if (!($searchLine === '')) {
+            if (in_array($searchLine, $searchArray)) {
+                $resultArray = array_filter($array, fn($el) => $el !== $key);
+                print_r($resultArray);
+                $newfile = implode("\r\n", $resultArray);
+                $result .= $key . PHP_EOL;
+            }
+        }
+    }
+    if (!(strlen($result) === 0)) {
+        $fileHandler = fopen($address, 'w');
+        if (fwrite($fileHandler, $newfile)) {
+            $result = "Удалены из хранилища пользователи: \r\n" . $result;
+        }
+        fclose($fileHandler);
+    } else {
+        $result = "Таких пользователей не найдено!";
+    }
+    return $result;
+}
+
 // function addFunction(string $address) : string {
 function addFunction(array $config): string
 {
