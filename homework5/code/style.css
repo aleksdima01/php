@@ -1,0 +1,8 @@
+a {
+    color: rgb(229, 255, 0);
+}
+
+.header {
+    display: flex;
+    background-color: bisque;
+}
