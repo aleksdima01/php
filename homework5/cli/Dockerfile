@@ -11,3 +11,5 @@ RUN apt-get update && apt-get install zip unzip
 WORKDIR /data/mysite.local
 
 VOLUME /data/mysite.local
+
+CMD ["composer", "update"]

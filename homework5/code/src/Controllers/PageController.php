@@ -1,13 +1,17 @@
 <?php
 
 namespace Geekbrains\Application1\Controllers;
+
 use Geekbrains\Application1\Render;
+use Geekbrains\Application1\Models\Date;
 
-class PageController {
+class PageController
+{
 
-    public function actionIndex() {
+    public function actionIndex()
+    {
         $render = new Render();
-        
-        return $render->renderPage('page-index.twig', ['title' => 'Главная страница']);
+        $date = (new Date())->getDate();
+        return $render->renderPage('page-index.twig', ['title' => 'Главная страница', 'date' => $date]);
     }
 }

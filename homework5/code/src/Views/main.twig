@@ -3,7 +3,7 @@
 
 <head>
     <title>{{ title }}</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?13">
 </head>
 
 <body>
@@ -11,6 +11,10 @@
         {% include "header.twig" %}
     </header>
     {% include content_template_name %}
+    <footer>
+        {% include "footer.twig" %}
+    </footer>
+
 </body>
 
 </html>
