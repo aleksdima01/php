@@ -3,7 +3,7 @@
 
 <head>
     <title>{{ title }}</title>
-    <link rel="stylesheet" href="style.css?14">
+    <link rel="stylesheet" href="./style.css?14">
 </head>
 
 <body>
