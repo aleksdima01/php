@@ -2,25 +2,23 @@
 
 namespace Geekbrains\Application1\Domain\Controllers;
 
-use Geekbrains\Application1\Application\Application;
+use Geekbrains\Application1\Domain\Models\User;
 
-class AbstractController {
+class AbstractController
+{
 
     protected array $actionsPermissions = [];
-    
-    public function getUserRoles(): array{
+
+    public function getUserRoles(): array
+    {
         $roles = [];
-        $roles[] = 'user';
+        $roles[] = 'guest';
 
-        if(isset($_SESSION['id_user'])){
-            $rolesSql = "SELECT * FROM user_roles WHERE id_user = :id";
+        if (isset($_SESSION['id_user'])) {
+            $result = User::getUserRolesById();
 
-            $handler = Application::$storage->get()->prepare($rolesSql);
-            $handler->execute(['id' => $_SESSION['id_user']]);
-            $result = $handler->fetchAll();
-    
-            if(!empty($result)){
-                foreach($result as $role){
+            if (!empty($result)) {
+                foreach ($result as $role) {
                     $roles[] = $role['role'];
                 }
             }
@@ -29,7 +27,8 @@ class AbstractController {
         return $roles;
     }
 
-    public function getActionsPermissions(string $methodName): array {
+    public function getActionsPermissions(string $methodName): array
+    {
         return $this->actionsPermissions[$methodName] ?? [];
     }
 }

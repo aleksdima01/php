@@ -1,5 +1,7 @@
-{% if not auth-success %}
-  {{ auth-error }}
+{% if not auth_success %}
+  {{ auth_error }}
+ <p>Логин: admin</p>
+<p>Пароль: geekbrains</p>
 {% endif %}
 
 

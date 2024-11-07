@@ -15,7 +15,13 @@ class UserController extends AbstractController
         'actionSave' => ['admin'],
         'actionEdit' => ['admin'],
         'actionIndex' => ['admin'],
+        'actionAdd' => ['admin'],
+        'actionDelete' => ['admin'],
+        'actionUpdateForm' => ['admin'],
+        'actionUpdate' => ['admin'],
         'actionLogout' => ['admin'],
+        'actionAuth' => ['guest'],
+        'actionLogin' => ['guest'],
     ];
 
     public function actionIndex(): string
@@ -77,23 +83,27 @@ class UserController extends AbstractController
 
     public function actionUpdateForm(): string
     {
-        $render = new Render();
         $id = $_GET['id'];
-        $user = USER::getUserById($id);
-        return $render->renderPageWithForm(
-            'user-update.tpl',
-            [
-                'title' => 'Форма изменения пользователя',
-                'id' => $id,
-                'user_lastname' => $user->getUserLastName(),
-                'users_name' => $user->getUserName(),
-                'user_birthday' => $user->getUserBirthday()
-            ]
-        );
+        if (User::exists($_GET['id'])) {
+            $render = new Render();
+
+            $user = USER::getUserById($id);
+            return $render->renderPageWithForm(
+                'user-update.tpl',
+                [
+                    'title' => 'Форма изменения пользователя',
+                    'id' => $id,
+                    'user_lastname' => $user->getUserLastName(),
+                    'users_name' => $user->getUserName(),
+                    'user_birthday' => $user->getUserBirthday()
+                ]
+            );
+        } else {
+            throw new \Exception("Пользователь не существует!");
+        }
     }
     public function actionUpdate(): string
     {
-        echo User::exists($_GET['id']);
         if (User::exists($_GET['id'])) {
 
             if (User::validateRequestData()) {
@@ -115,10 +125,10 @@ class UserController extends AbstractController
                 $user->updateUser($arrayData);
                 $render = new Render();
             } else {
-                throw new \Exception("Переданные данные некорректны");
+                throw new \Exception("Переданные данные некорректны!");
             }
         } else {
-            throw new \Exception("Пользователь не существует");
+            throw new \Exception("Пользователь не существует!");
         }
         return $render->renderPage(
             'user-created.tpl',
@@ -141,7 +151,7 @@ class UserController extends AbstractController
                 []
             );
         } else {
-            throw new \Exception("Пользователь не существует");
+            throw new \Exception("Пользователь не существует!");
         }
     }
 
@@ -172,13 +182,12 @@ class UserController extends AbstractController
 
         if (!$result) {
             $render = new Render();
-
             return $render->renderPageWithForm(
                 'user-auth.tpl',
                 [
                     'title' => 'Форма логина',
-                    'auth-success' => false,
-                    'auth-error' => 'Неверные логин или пароль'
+                    'auth_success' => false,
+                    'auth_error' => 'Неверные логин или пароль'
                 ]
             );
         } else {

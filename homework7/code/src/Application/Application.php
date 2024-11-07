@@ -86,12 +86,10 @@ class Application
     {
         $userRoles = $controllerInstance->getUserRoles();
 
-
-
         $rules = $controllerInstance->getActionsPermissions($methodName);
 
-        $rules[] = 'user';
-
+        //$rules[] = 'user';
+        //   print_r($rules);
         $isAllowed = false;
 
         if (!empty($rules)) {
