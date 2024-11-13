@@ -28,6 +28,7 @@ class UserController extends AbstractController
     {
         $users = User::getAllUsersFromStorage();
         $render = new Render();
+        // print_r($users);
         if (!$users) {
             return $render->renderPage(
                 'user-empty.tpl',
@@ -142,13 +143,11 @@ class UserController extends AbstractController
     public function actionDelete()
     {
         if (User::exists($_POST['id'])) {
-            // User::deleteFromStorage($_POST['id']);
-
-            header("Content-type: application/json");
+            User::deleteFromStorage($_POST['id']);
             $result =
-                ['users' => User::getAllUsersFromStorage()];
+                ['user_deleted' => $_POST['id']];
+            header("Content-type: application/json");
             return json_encode($result);
-            //  json_encode(array('PC' => $array))
         } else {
             throw new \Exception("Пользователь не существует!");
         }

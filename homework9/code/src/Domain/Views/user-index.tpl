@@ -27,7 +27,8 @@
           {% endif %}
         </td>
         {% if isAdmin %}
-        <td scope="col"><a href="/user/updateForm/?id={{user.getUserId()}}">Изменить</a></td>
+        <td scope="col"><a class="btn btn-primary btn-sm" href="/user/updateForm/?id={{user.getUserId()}}">Изменить</a>
+        </td>
         <td scope="col"><button type="button" class="btn btn-primary btn-sm delete_button"
             id="{{user.getUserId()}}">Удаление</a></td>
         {% endif %}
@@ -38,7 +39,6 @@
 </div>
 <script>
   const deleteButtons = document.querySelectorAll(".delete_button");
-  console.log(deleteButtons);
   deleteButtons.forEach((deleteButton) => {
     deleteButton.onclick = function () {
       (async () => {
@@ -53,11 +53,13 @@
         );
         const answer = await response.json();
         const tableBody = document.querySelector(".table_body");
-        tableBody.innerHTML = '<div>dszfs</div>';
-
+        const number_deleted = answer.user_deleted;
+        const deleteButton_parent = deleteButton.parentNode.parentNode;
+        if (deleteButton.id === answer.user_deleted) {
+          deleteButton_parent.remove();
+        }
       })();
     }
   })
-
 
 </script>

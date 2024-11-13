@@ -10,7 +10,8 @@
   </p>
   <p>
     <label for="user-birthday">День рождения:</label>
-    <input id="user-birthday" type="text" name="birthday"value="{{user_birthday | date('d-m-Y')}}" placeholder="ДД-ММ-ГГГГ">
+    <input id="user-birthday" type="text" name="birthday" value="{{user_birthday | date('d-m-Y')}}"
+      placeholder="ДД-ММ-ГГГГ">
   </p>
-  <p><input class="btn btn-primary" type="submit" value="Сохранить"></p>
+  <p><input class="btn btn-primary btn-sm" type="submit" value="Сохранить"></p>
 </form>

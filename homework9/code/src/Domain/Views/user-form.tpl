@@ -12,5 +12,5 @@
     <label for="user-birthday">День рождения:</label>
     <input id="user-birthday" type="text" name="birthday" placeholder="ДД-ММ-ГГГГ">
   </p>
-  <p><input type="submit" value="Сохранить"></p>
+  <p><input class="btn btn-primary btn-sm" type="submit" value="Сохранить"></p>
 </form>
